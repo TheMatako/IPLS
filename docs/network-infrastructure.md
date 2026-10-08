@@ -16,9 +16,56 @@ Below is the home network architecture diagram:
 
 ![Home Network Architecture Diagram](./assets/network-architecture-home.png)
 
-To provide internet access to the Proxmox server without a direct physical link to the residential box, we configured a network connection sharing from the developer laptop's Wi-Fi interface to its Ethernet interface. By default, this assigns the `192.168.137.1/24` gateway address to the laptop's Ethernet interface. 
+To provide Internet access to the Proxmox server without a direct physical link to the residential router, network connection sharing (NAT) was established from the developer laptop's Wi-Fi interface to its Ethernet interface. This setup assigns the gateway address `192.168.137.1/24` to the laptop's Ethernet interface.
 
-We assigned the `192.168.137.10/24` IP address to the Proxmox server and the `192.168.137.40/24` IP address to the Arch Linux VM hosted within. 
+The Proxmox host is configured with the static IP `192.168.137.10/24`, while the hosted Arch Linux VM uses `192.168.137.40/24`.
+
+#### Workstation Network Sharing Configuration
+
+Depending on the operating system running on the developer workstation, connection sharing is enabled using the respective methods below:
+
+##### Windows (Internet Connection Sharing)
+1. Open the **Network Connections** manager (`Win + R` $\rightarrow$ `ncpa.cpl`).
+2. Right-click the active **Wi-Fi** adapter and select **Properties**.
+3. Switch to the **Sharing** tab.
+4. Check *"Allow other network users to connect through this computer's Internet connection"*.
+5. Select the physical Ethernet interface connected to the Proxmox server from the drop-down menu and apply the changes.
+
+> **Note:** Windows Internet Connection Sharing (ICS) automatically sets the host Ethernet interface IP address to `192.168.137.1/24`.
+
+-------------
+
+##### Linux (CLI / iptables) 
+> **Note** : Following instructions were created for Debian12
+1. Enable IPv4 packet forwarding in the kernel:
+   ```bash
+   sudo sysctl -w net.ipv4.ip_forward=1
+    ```
+2. Reset and configure the Ethernet gateway interface:
+    ```bash
+    sudo ip addr flush dev <ETH_INTERFACE>
+    sudo ip addr add 192.168.137.1/24 dev <ETH_INTERFACE>
+    sudo ip link set dev <ETH_INTERFACE> up
+    ```
+3. Configure NAT (masquerading) and traffic forwarding rules:
+    ```bash
+    sudo iptables -t nat -A POSTROUTING -o <WIFI_INTERFACE> -j MASQUERADE
+    sudo iptables -A FORWARD -i <ETH_INTERFACE> -o <WIFI_INTERFACE> -j ACCEPT
+    sudo iptables -A FORWARD -i <WIFI_INTERFACE> -o <ETH_INTERFACE> -m state --state RELATED,ESTABLISHED -j ACCEPT
+    ```
+
+> **Note on Handling Rule Conflicts:** Before applying new rules, inspect existing configurations:
+> ```bash
+> sudo iptables -t nat -L POSTROUTING --line-numbers -v -n
+> sudo iptables -L FORWARD --line-numbers -v -n
+> ```
+> - **Targeted Deletion (Recommended):** Delete only the conflicting rule by specifying its chain and line number, depending on where the conflict was identified:
+>   - For a forwarding rule conflict: `sudo iptables -D FORWARD <RULE_NUMBER>`
+>   - For a NAT rule conflict: `sudo iptables -t nat -D POSTROUTING <RULE_NUMBER>`
+>
+>   This surgically removes the obstacle without affecting other active rules or security policies.
+> - **Full Flush (Not Recommended):** Emptying entire chains or tables (`sudo iptables -F FORWARD` or `sudo iptables -t nat -F`) is discouraged, as it indiscriminately wipes all existing firewall rules, which may disrupt other active network services.
+
 
 ### School Infrastructure
 
