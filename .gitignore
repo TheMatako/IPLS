@@ -1,0 +1,88 @@
+# ==============================================================================
+# IPLS - .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Archiso & Package Build Artifacts (makepkg / mkarchiso)
+# ------------------------------------------------------------------------------
+# Output directory containing built ISOs
+out/
+out_dir/
+*.iso
+*.iso.sha256
+*.iso.sig
+
+# Archiso scratch / working directories
+work/
+work_dir/
+
+# makepkg build trees and local packages
+src/
+pkg/
+*.pkg.tar.*
+*.pkg.tar.zst
+*.pkg.tar.xz
+
+# ------------------------------------------------------------------------------
+# 2. Rust & Kernel Build Artifacts
+# ------------------------------------------------------------------------------
+# Rust targets
+target/
+**/*.rs.bk
+Cargo.lock.backup
+
+# Kernel modules and C compilation artifacts (LKM / Rust for Linux PoC)
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.symvers
+*.order
+.tmp_versions/
+
+# ------------------------------------------------------------------------------
+# 3. Security & Secrets Protection
+# ------------------------------------------------------------------------------
+# Private keys and keyrings (do NOT block public .crt/.pub)
+*.key
+*.priv
+*.pfx
+*.p12
+*.pem.key
+id_rsa*
+id_ed25519*
+!id_*.pub
+
+# Local environment variables and sensitive profiles
+.env
+.env.*
+*.secret
+
+# ------------------------------------------------------------------------------
+# 4. Editors, IDEs & System Files
+# ------------------------------------------------------------------------------
+# VS Code (ignore local cache/workspace state, track shared settings)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Editor temporary/swap files
+*~
+*.swp
+*.swo
+*.swn
+
+# Patch artifacts
+*.orig
+*.rej
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# ------------------------------------------------------------------------------
+# 5. Raw Logs & Execution Traces
+# ------------------------------------------------------------------------------
+*.log
+*.log.*
