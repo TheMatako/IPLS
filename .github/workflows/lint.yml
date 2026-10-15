@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y shellcheck
-          sudo npm install -t markdownlint-cli
+          sudo npm install -g markdownlint-cli
 
       - name: Run Makefile checks
         run: make check
