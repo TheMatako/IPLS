@@ -1,0 +1,40 @@
+# ==============================================================================
+# IPLS - Dependabot Configuration
+# Automated dependency monitoring for GitHub Actions workflows and Rust toolchain
+# ==============================================================================
+
+version: 2
+updates:
+  # 1. Automated updates for GitHub Actions CI/CD workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "ci"
+      - "dependencies"
+    # Enforce Conventional Commits specification (e.g., ci(deps): bump actions/checkout...)
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    # Automatically assign pull requests to team maintainers
+    assignees:
+      - "TheMatako"
+      - "RaphaelVerginelli"
+
+  # 2. Automated updates for Rust crates (uncomment once /src/rust exists)
+  # - package-ecosystem: "cargo"
+  #   directory: "/src/rust"
+  #   schedule:
+  #     interval: "weekly"
+  #   open-pull-requests-limit: 5
+  #   labels:
+  #     - "rust"
+  #     - "dependencies"
+  #   commit-message:
+  #     prefix: "chore"
+  #     include: "scope"
+  #   assignees:
+  #     - "TheMatako"
+  #     - "RaphaelVerginelli"
