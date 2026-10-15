@@ -1,4 +1,7 @@
 {
+    "files.associations": {
+        "LICENSE": "plaintext"
+    },
     "[markdown]": {
         "editor.edefaultFormatter": "DavidAnson.vscode-markdownlint",
         "editor.formatOnSave": true,
