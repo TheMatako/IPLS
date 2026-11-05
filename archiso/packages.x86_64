@@ -1,12 +1,35 @@
+# Minimal package set defining a basic Arch Linux installation environment
 base
+
+# Early initialization utility for cloud instances
 cloud-init
+
+# Integration services and drivers for Hyper-V virtual machines
 hyperv
+
+# The Linux kernel and modules
 linux
+
+# Modular initramfs image creation tool for Arch Linux
 mkinitcpio
+
+# Initramfs build hooks required for Archiso live images
 mkinitcpio-archiso
+
+# Open-source VMware Guest Services for VMware virtual machines
 open-vm-tools
+
+# Secure Shell tools for remote system access and secure file transfer
 openssh
+
+# Pipe Viewer tool to monitor data progress through a terminal pipeline
 pv
+
+# Guest agent for host-guest communication under QEMU/KVM hypervisors
 qemu-guest-agent
+
+# Lightweight bootloader suite for BIOS-based system startup
 syslinux
+
+# VirtualBox guest utilities and integration services without X11 GUI dependencies
 virtualbox-guest-utils-nox
