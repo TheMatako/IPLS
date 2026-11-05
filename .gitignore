@@ -16,17 +16,27 @@ out_dir/
 work/
 work_dir/
 
-# makepkg build trees and local packages
-src/
-pkg/
+# [CHANGED] makepkg build trees, scoped to packaging directories only.
+# The previous unanchored "src/" and "pkg/" rules matched ANY directory with
+# those names, including src/rust/ and the src/ folder of every Cargo crate.
+/packages/**/src/
+/packages/**/pkg/
 *.pkg.tar.*
 *.pkg.tar.zst
 *.pkg.tar.xz
 
+# [NEW] Binaries copied into the live image at build time (see release-iso.yml).
+# They are build outputs, not sources.
+/archiso/airootfs/usr/local/bin/pls
+
+# [NEW] Release assets downloaded locally for verification
+/dist/
+*.pkglist.txt
+
 # ------------------------------------------------------------------------------
 # 2. Rust & Kernel Build Artifacts
 # ------------------------------------------------------------------------------
-# Rust targets
+# Rust targets (Cargo.lock is intentionally NOT ignored: builds use --locked)
 target/
 **/*.rs.bk
 Cargo.lock.backup
