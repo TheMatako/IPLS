@@ -88,35 +88,6 @@ v%:
 	git push origin $@
 	@echo "[+] Success: Tag $@ pushed. GitHub Actions CI/CD will generate the release!"
 
-# Secure rule to flash the ISO onto a USB drive
-# Usage: make flash USB=/dev/sdX
-flash:
-	@if [ -z "$(USB)" ]; then \
-		echo "[-] Error: USB variable is not defined."; \
-		echo "    Usage example: make flash USB=/dev/sdb"; \
-		exit 1; \
-	fi
-	@if [ ! -b "$(USB)" ]; then \
-		echo "[-] Error: Device $(USB) does not exist or is not a valid block device."; \
-		exit 1; \
-	fi
-	@echo "[!] WARNING: You are about to completely overwrite the device $(USB)!"
-	@lsblk $(USB)
-	@read -p "Are you absolutely sure you want to continue? [y/N] " confirm; \
-	if [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]; then \
-		iso_file=$$(ls out/*.iso 2>/dev/null | head -n 1); \
-		if [ -z "$$iso_file" ]; then \
-			echo "[-] Error: No ISO found in the out/ directory. Run 'make iso' first."; \
-			exit 1; \
-		fi; \
-		echo "[+] Flashing image $$iso_file to $(USB)..."; \
-		sudo dd if=$$iso_file of=$(USB) bs=4M status=progress oflag=sync; \
-		sync; \
-		echo "[+] Flashing completed and synchronized successfully!"; \
-	else \
-		echo "[-] Operation canceled."; \
-	fi
-
 ## clean: Purge temporary build artifacts and scratchpads
 clean:
 	@echo "==> [CLEAN] Purging temporary build artifacts..."
