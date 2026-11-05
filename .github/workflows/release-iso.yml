@@ -7,7 +7,7 @@ on:
       - 'v0.[0-9]+.[0-9]+'           # pre-1.0 milestones (published as pre-release)
       - 'v[0-9]+.0.0-rc.[0-9]+'      # release candidates (published as pre-release)
   pull_request:
-    branches: [ main, ci/infra-archiso ]
+    branches: [ main ]
     paths:
       - 'archiso/**'
       - '.github/workflows/release-iso.yml'
@@ -37,7 +37,7 @@ jobs:
         if: github.ref_type == 'tag'
         run: |
           set -euo pipefail
-          if ! git merge-base --is-ancestor "${GITHUB_SHA}" origin/ci/infra-archiso; then
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" origin/main; then
             echo "::error::${GITHUB_REF_NAME} does not point to a commit reachable from main"
             exit 1
           fi
