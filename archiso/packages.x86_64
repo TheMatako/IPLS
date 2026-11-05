@@ -33,3 +33,12 @@ syslinux
 
 # VirtualBox guest utilities and integration services without X11 GUI dependencies
 virtualbox-guest-utils-nox
+
+# Guided and interactive Arch Linux installer script
+archinstall
+
+# Utility to retrieve, filter, and rank the fastest Pacman mirrors
+reflector
+
+# Official Arch Linux GPG keyring containing public keys for package verification
+archlinux-keyring
