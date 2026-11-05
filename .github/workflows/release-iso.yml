@@ -10,7 +10,6 @@ on:
     branches: [ main, ci/infra-archiso ]
     paths:
       - 'archiso/**'
-      - 'src/rust/**'
       - '.github/workflows/release-iso.yml'
   workflow_dispatch:
 
@@ -75,15 +74,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - name: Build in-house Rust tools
-        if: hashFiles('src/rust/Cargo.toml') != ''
-        run: |
-          set -euo pipefail
-          pacman -S --noconfirm --needed rust
-          cargo build --release --locked --manifest-path src/rust/Cargo.toml
-          install -D -m 0755 -o root -g root \
-            src/rust/target/release/pls archiso/airootfs/usr/local/bin/pls
 
       - name: Build ISO with mkarchiso
         env:

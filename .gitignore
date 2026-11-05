@@ -25,10 +25,6 @@ work_dir/
 *.pkg.tar.zst
 *.pkg.tar.xz
 
-# [NEW] Binaries copied into the live image at build time (see release-iso.yml).
-# They are build outputs, not sources.
-/archiso/airootfs/usr/local/bin/pls
-
 # [NEW] Release assets downloaded locally for verification
 /dist/
 *.pkglist.txt
