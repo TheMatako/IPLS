@@ -45,14 +45,26 @@ archlinux-keyring
 
 
 # FILESYSTEMS & DISK ENCRYPTION
+# Provides mkfs.fat and fsck.fat. Essential for formatting the EFI system partition (/boot) as FAT32 on any UEFI system.
 dosfstools
+
+# Provides mkfs.ext4, e2fsck, and resize2fs for managing standard Linux ext4 partitions.
 e2fsprogs
+
+# Provides mkfs.btrfs and btrfs, which are required for formatting and managing Btrfs subvolumes (the default option for archinstall).
 btrfs-progs
+
+# Manages LUKS (dm-crypt) disk encryption, which protects the target system's partitions against unauthorized physical access.
 cryptsetup
 
 
 # MINIMAL WIFI & HARDWARE FIRMWARE
+# iNet Wireless Daemon: a modern, lightweight Wi-Fi daemon that directly uses the Linux kernel's cryptographic primitives
 iwd
+
+# All binary firmware required by network controllers and physical Wi-Fi cards
 linux-firmware
+
+# Regulatory database of radio frequencies, essential for unlocking 5 GHz Wi-Fi channels
 wireless-regdb
 
