@@ -1,8 +1,6 @@
+# BASELINE PACKAGES
 # Minimal package set defining a basic Arch Linux installation environment
 base
-
-# Early initialization utility for cloud instances
-cloud-init
 
 # Integration services and drivers for Hyper-V virtual machines
 hyperv
@@ -34,11 +32,27 @@ syslinux
 # VirtualBox guest utilities and integration services without X11 GUI dependencies
 virtualbox-guest-utils-nox
 
+
+# INSTALLER 
 # Guided and interactive Arch Linux installer script
 archinstall
 
-# Utility to retrieve, filter, and rank the fastest Pacman mirrors
-reflector
+# Install baseline script for archinstall
+arch-install-scripts
 
 # Official Arch Linux GPG keyring containing public keys for package verification
 archlinux-keyring
+
+
+# FILESYSTEMS & DISK ENCRYPTION
+dosfstools
+e2fsprogs
+btrfs-progs
+cryptsetup
+
+
+# MINIMAL WIFI & HARDWARE FIRMWARE
+iwd
+linux-firmware
+wireless-regdb
+
